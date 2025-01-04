@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          clean: true  # clean: true 추가
 
       - name: Configure SSH Key
         env:
@@ -53,14 +55,12 @@ jobs:
             npm run build
           EOF
 
-      # PM2 배포/재시작 로직
       - name: Deploy Application on EC2
         run: |
           set -e
           ssh $USER@$HOST << 'EOF'
             cd /home/ubuntu/ezen-mini-frontend
 
-            # 이미 ezen-nextjs 프로세스가 있다면 완전히 중지 후 삭제
             if pm2 describe ezen-nextjs > /dev/null; then
               echo "Stopping existing PM2 process..."
               pm2 stop ezen-nextjs || true
@@ -73,7 +73,6 @@ jobs:
             pm2 save || { echo "PM2 save failed"; exit 1; }
           EOF
 
-      # PM2 상태 및 로그 확인 (타임아웃 대비 --nostream 사용)
       - name: Debug PM2 Logs
         run: |
           ssh $USER@$HOST << 'EOF'
