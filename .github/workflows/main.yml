@@ -9,6 +9,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     environment: EZEN
     env:
       HOST: ${{ secrets.EC2_EZEN_NEXTJS_HOST }}
