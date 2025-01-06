@@ -1,4 +1,6 @@
-import './globals.css';
+import Navbar from '../components/Navbar'; // Navbar 컴포넌트 가져오기
+import './globals.css'; // 전역 스타일 가져오기
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -7,8 +9,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html>
-      <body>{children}</body>
+    <html lang="en">
+      <body>
+        <Navbar /> {/* 네비게이션 바 */}
+        <main>{children}</main> {/* 각 페이지의 내용 */}
+      </body>
     </html>
   );
 }

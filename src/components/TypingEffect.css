@@ -1,0 +1,22 @@
+.typing {
+  display: inline-block; /* 텍스트 크기에 맞게 동작하도록 설정 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  border-right: 2px solid #7e2ea0; /* 커서를 나타냄 */
+  animation: typing 2s steps(30, end), blink 0.5s step-end infinite; /* 타이핑 + 커서 깜빡임 */
+}
+
+@keyframes typing {
+  from {
+    width: 0; /* 텍스트 시작 크기 */
+  }
+  to {
+    width: 100%; /* 텍스트 전체 길이 */
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent; /* 커서 깜빡임 */
+  }
+}
