@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function QuestionDetailPage() {
   const { id } = useParams();
   const [question, setQuestion] = useState(null);
-  const [answers, setAnswers] = useState([]);
+  const [answers, setAnswers] = useState([]); // 빈 배열로 초기화
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,12 +24,9 @@ export default function QuestionDetailPage() {
         );
         const answersData = await answersResponse.json();
 
-        console.log("Question Data:", questionData);
-        console.log("Answers Data:", answersData);
-
-        // 데이터를 상태에 저장
-        setQuestion(questionData.data); // 응답의 data 필드 사용
-        setAnswers(answersData.data); // 응답의 data 필드 사용
+        // 데이터 유효성 검사 후 상태 설정
+        setQuestion(questionData?.data || null);
+        setAnswers(answersData?.data || []);
       } catch (error) {
         console.error("데이터를 가져오는 도중 오류가 발생했습니다:", error);
       } finally {
@@ -97,7 +94,9 @@ export default function QuestionDetailPage() {
     <div style={containerStyle}>
       {/* 질문 카드 */}
       <div style={cardStyle}>
-        <p style={{ marginBottom: "10px" }}>{question.content || "내용 없음"}</p>
+        <p style={{ marginBottom: "10px" }}>
+          {question.content || "내용 없음"}
+        </p>
         <div style={cardFooterStyle}>
           <span>작성자: {question.author || "Unknown"}</span>
           <span>
@@ -110,7 +109,9 @@ export default function QuestionDetailPage() {
 
       {/* 답변 목록 헤더 */}
       <div style={answerHeaderStyle}>
-        {answers.length}개의 답변이 있습니다
+        {answers.length > 0
+          ? `${answers.length}개의 답변이 있습니다`
+          : "답변이 없습니다"}
       </div>
 
       {/* 답변 카드 */}
