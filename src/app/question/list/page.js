@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Next.js의 useRouter 훅 가져오기
-import { getQuestions } from '../../../lib/api'; // lib/api.js에서 getQuestions 함수 가져옴
+import { getQuestions } from '../../../lib/api'; // lib/api.js에서 getQuestions 함수 가져오기
 
 export default function QuestionList() {
   const [questions, setQuestions] = useState([]);
