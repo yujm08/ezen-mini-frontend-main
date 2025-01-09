@@ -29,7 +29,7 @@ export default function QuestionDetailPage() {
 
         // 데이터를 상태에 저장
         setQuestion(questionData.data); // 응답의 data 필드 사용
-        setAnswers(answersData.data);   // 응답의 data 필드 사용
+        setAnswers(answersData.data); // 응답의 data 필드 사용
       } catch (error) {
         console.error("데이터를 가져오는 도중 오류가 발생했습니다:", error);
       } finally {
@@ -48,6 +48,13 @@ export default function QuestionDetailPage() {
     return <p style={{ textAlign: "center" }}>질문을 가져올 수 없습니다.</p>;
   }
 
+  const containerStyle = {
+    padding: "20px",
+    maxWidth: "800px",
+    margin: "0 auto",
+    fontFamily: "'Arial', sans-serif",
+  };
+
   const cardStyle = {
     padding: "15px",
     border: "1px solid #ddd",
@@ -56,11 +63,12 @@ export default function QuestionDetailPage() {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#f9f9f9",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   };
 
   const answerCardStyle = {
     ...cardStyle,
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#e9ecef", // 더 진한 색으로 조정
   };
 
   const cardFooterStyle = {
@@ -71,8 +79,22 @@ export default function QuestionDetailPage() {
     marginTop: "10px",
   };
 
+  const noAnswersTextStyle = {
+    textAlign: "center",
+    color: "#666",
+  };
+
+  const answerHeaderStyle = {
+    fontSize: "16px",
+    fontWeight: "bold",
+    marginBottom: "10px",
+    borderBottom: "1px solid #ddd", // 얇은 가로선
+    paddingBottom: "5px",
+    textAlign: "left",
+  };
+
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+    <div style={containerStyle}>
       {/* 질문 카드 */}
       <div style={cardStyle}>
         <p style={{ marginBottom: "10px" }}>{question.content || "내용 없음"}</p>
@@ -84,6 +106,11 @@ export default function QuestionDetailPage() {
               : "Invalid Date"}
           </span>
         </div>
+      </div>
+
+      {/* 답변 목록 헤더 */}
+      <div style={answerHeaderStyle}>
+        {answers.length}개의 답변이 있습니다
       </div>
 
       {/* 답변 카드 */}
@@ -102,9 +129,7 @@ export default function QuestionDetailPage() {
           </div>
         ))
       ) : (
-        <p style={{ textAlign: "center", color: "#666" }}>
-          아직 답변이 없습니다.
-        </p>
+        <p style={noAnswersTextStyle}>아직 답변이 없습니다.</p>
       )}
     </div>
   );

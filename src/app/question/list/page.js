@@ -34,8 +34,8 @@ export default function QuestionList() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-      <h1 style={{ marginBottom: '20px' }}>Question List</h1>
-      <ul style={{ textAlign: 'left' }}>
+      <h1 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>Question List</h1>
+      <ul style={{ textAlign: 'left', listStyle: 'none', padding: 0 }}>
         {questions.map((question) => (
           <li
             key={question.id}
@@ -45,11 +45,12 @@ export default function QuestionList() {
               border: '1px solid #ddd',
               borderRadius: '5px',
               position: 'relative',
-              cursor: 'pointer', // 클릭 가능하게 변경
+              cursor: 'pointer',
+              backgroundColor: '#f9f9f9',
             }}
-            onClick={() => handleQuestionClick(question.id)} // 클릭 이벤트 추가
+            onClick={() => handleQuestionClick(question.id)}
           >
-            <h3 style={{ marginBottom: '5px', display: 'flex', alignItems: 'center' }}>
+            <h3 style={{ marginBottom: '5px', display: 'flex', alignItems: 'center', fontSize: '18px' }}>
               {question.subject}
               {question.answers && question.answers.length > 0 && (
                 <span
@@ -94,7 +95,7 @@ export default function QuestionList() {
           style={{
             padding: '5px 10px',
             marginRight: '5px',
-            background: currentPage === 1 ? '#ddd' : '#000',
+            backgroundColor: currentPage === 1 ? '#ddd' : '#000',
             color: '#fff',
             border: 'none',
             borderRadius: '5px',
@@ -104,8 +105,8 @@ export default function QuestionList() {
           이전
         </button>
         {Array.from({ length: Math.min(3, totalPages) }, (_, index) => {
-          const pageNumber = currentPage - 1 + index; // 현재 페이지 기준으로 계산
-          if (pageNumber < 1 || pageNumber > totalPages) return null; // 페이지 범위 초과 시 생략
+          const pageNumber = currentPage - 1 + index;
+          if (pageNumber < 1 || pageNumber > totalPages) return null;
           return (
             <button
               key={`page-${pageNumber}`}
@@ -113,7 +114,7 @@ export default function QuestionList() {
               style={{
                 padding: '5px 10px',
                 margin: '0 5px',
-                background: pageNumber === currentPage ? '#000' : '#fff',
+                backgroundColor: pageNumber === currentPage ? '#000' : '#fff',
                 color: pageNumber === currentPage ? '#fff' : '#000',
                 border: '1px solid #ddd',
                 borderRadius: '5px',
@@ -130,7 +131,7 @@ export default function QuestionList() {
           style={{
             padding: '5px 10px',
             marginLeft: '5px',
-            background: currentPage === totalPages ? '#ddd' : '#000',
+            backgroundColor: currentPage === totalPages ? '#ddd' : '#000',
             color: '#fff',
             border: 'none',
             borderRadius: '5px',

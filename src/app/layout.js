@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar'; // Navbar 컴포넌트 가져오기
 import './globals.css'; // 전역 스타일 가져오기
-
+import Head from 'next/head'; // Head 컴포넌트 추가
 
 export const metadata = {
   title: 'Create Next App',
@@ -8,11 +8,34 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const layoutStyle = {
+    fontFamily: "'Noto Serif KR', serif", // Noto Serif 폰트 적용
+    lineHeight: "1.5",
+    margin: "0",
+    padding: "0",
+    boxSizing: "border-box",
+  };
+
+  const mainStyle = {
+    padding: "20px",
+    maxWidth: "1200px",
+    margin: "0 auto",
+  };
+
   return (
     <html lang="en">
-      <body>
+      <Head>
+        {/* Google Fonts 설정 */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <body style={layoutStyle}>
         <Navbar /> {/* 네비게이션 바 */}
-        <main>{children}</main> {/* 각 페이지의 내용 */}
+        <main style={mainStyle}>{children}</main> {/* 각 페이지의 내용 */}
       </body>
     </html>
   );
