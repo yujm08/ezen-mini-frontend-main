@@ -8,34 +8,70 @@ export default function QuestionDetailPage() {
   const [question, setQuestion] = useState(null);
   const [answers, setAnswers] = useState([]); // 빈 배열로 초기화
   const [loading, setLoading] = useState(true);
+  const [newAnswer, setNewAnswer] = useState(""); // 답변 입력값
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // 질문 데이터 가져오기
-        const questionResponse = await fetch(
-          `${process.env.BACKEND_BASE_URL}/questions/${id}`
-        );
-        const questionData = await questionResponse.json();
+  // 질문 및 답변 데이터 가져오기
+  const fetchData = async () => {
+    try {
+      // 질문 데이터 가져오기
+      const questionResponse = await fetch(
+        `${process.env.BACKEND_BASE_URL}/questions/${id}`
+      );
+      const questionData = await questionResponse.json();
 
-        // 답변 데이터 가져오기
-        const answersResponse = await fetch(
-          `${process.env.BACKEND_BASE_URL}/answers?questionId=${id}`
-        );
-        const answersData = await answersResponse.json();
+      // 답변 데이터 가져오기
+      const answersResponse = await fetch(
+        `${process.env.BACKEND_BASE_URL}/answers?questionId=${id}`
+      );
+      const answersData = await answersResponse.json();
 
-        // 데이터 유효성 검사 후 상태 설정
-        setQuestion(questionData?.data || null);
-        setAnswers(answersData?.data || []);
-      } catch (error) {
-        console.error("데이터를 가져오는 도중 오류가 발생했습니다:", error);
-      } finally {
-        setLoading(false);
-      }
+      // 데이터 유효성 검사 후 상태 설정
+      setQuestion(questionData?.data || null);
+      setAnswers(answersData?.data || []);
+    } catch (error) {
+      console.error("데이터를 가져오는 도중 오류가 발생했습니다:", error);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  // 페이지 로드 시 데이터 가져오기
+  useEffect(() => {
     fetchData();
   }, [id]);
+
+  // 답변 등록 핸들러
+  const handleAnswerSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!newAnswer.trim()) {
+      alert("답변 내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      // 답변 등록 요청
+      const response = await fetch(`${process.env.BACKEND_BASE_URL}/answers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: newAnswer,
+          questionId: id,
+        }),
+      });
+
+      if (response.ok) {
+        setNewAnswer(""); // 입력값 초기화
+        fetchData(); // 데이터 갱신
+      } else {
+        console.error("답변 등록 실패:", response.status);
+      }
+    } catch (error) {
+      console.error("답변 등록 중 오류 발생:", error);
+    }
+  };
 
   if (loading) {
     return <p style={{ textAlign: "center" }}>로딩 중...</p>;
@@ -65,7 +101,7 @@ export default function QuestionDetailPage() {
 
   const answerCardStyle = {
     ...cardStyle,
-    backgroundColor: "#e9ecef", // 더 진한 색으로 조정
+    backgroundColor: "#e9ecef",
   };
 
   const cardFooterStyle = {
@@ -85,7 +121,7 @@ export default function QuestionDetailPage() {
     fontSize: "16px",
     fontWeight: "bold",
     marginBottom: "10px",
-    borderBottom: "1px solid #ddd", // 얇은 가로선
+    borderBottom: "1px solid #ddd",
     paddingBottom: "5px",
     textAlign: "left",
   };
@@ -132,6 +168,36 @@ export default function QuestionDetailPage() {
       ) : (
         <p style={noAnswersTextStyle}>아직 답변이 없습니다.</p>
       )}
+
+      {/* 답변 등록 폼 */}
+      <form onSubmit={handleAnswerSubmit} style={{ marginTop: "20px" }}>
+        <textarea
+          value={newAnswer}
+          onChange={(e) => setNewAnswer(e.target.value)}
+          placeholder="답변 내용을 입력하세요."
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+          rows="4"
+        />
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "#000",
+            color: "#fff",
+            padding: "10px 20px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          답변 등록
+        </button>
+      </form>
     </div>
   );
 }

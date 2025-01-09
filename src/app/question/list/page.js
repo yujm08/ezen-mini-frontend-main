@@ -5,24 +5,27 @@ import { useRouter } from "next/navigation";
 
 export default function QuestionList() {
   const [questions, setQuestions] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0); // 페이지를 0부터 시작
+  const [currentPage, setCurrentPage] = useState(0); // 페이지 번호 0부터 시작
   const [totalPages, setTotalPages] = useState(0);
   const router = useRouter();
 
   // 질문 데이터 가져오기 함수
   const fetchQuestions = async (page) => {
     try {
-      const response = await fetch(`${process.env.BACKEND_BASE_URL}/questions?page=${page}`, {
-        method: "GET",
-        headers: { "Cache-Control": "no-cache" },
-      });
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/questions?page=${page}`,
+        {
+          method: "GET",
+          headers: { "Cache-Control": "no-cache" },
+        }
+      );
       const data = await response.json();
 
-      console.log("Fetched data content:", data.data.content);
+      console.log("Fetched data content:", data.data.content); // 확인용 로그
 
       if (data && data.data) {
-        setQuestions(data.data.content);
-        setTotalPages(data.data.totalPages);
+        setQuestions(data.data.content); // 질문 데이터 설정
+        setTotalPages(data.data.totalPages); // 총 페이지 수
       } else {
         setQuestions([]);
       }
@@ -37,21 +40,22 @@ export default function QuestionList() {
   }, [currentPage]);
 
   const handlePageChange = (page) => {
-    setCurrentPage(page); // 페이지 번호 변경
+    setCurrentPage(page);
+    fetchQuestions(page); // 페이지 변경 시 데이터 가져오기
   };
 
   const handleQuestionClick = (id) => {
-    router.push(`/question/detail/${id}`);
+    router.push(`/question/detail/${id}`); // 상세 페이지로 이동
   };
 
   const handleCreateQuestion = () => {
-    router.push("/question/create");
+    router.push("/question/create"); // 질문 등록 페이지로 이동
   };
 
   const renderPageButtons = () => {
     const buttons = [];
     const maxPagesToShow = 3;
-    const startPage = Math.max(currentPage, 0);
+    const startPage = Math.max(currentPage, 0); // 페이지 번호는 0부터 시작
     const endPage = Math.min(startPage + maxPagesToShow - 1, totalPages - 1);
 
     if (startPage > 0) {
@@ -97,7 +101,7 @@ export default function QuestionList() {
             cursor: "pointer",
           }}
         >
-          {i + 1} {/* 1 기반으로 보여줌 */}
+          {i + 1} {/* 사용자에게는 1부터 보이도록 */}
         </button>
       );
     }
@@ -170,6 +174,24 @@ export default function QuestionList() {
           >
             <h3 style={{ marginBottom: "5px", display: "flex", alignItems: "center", fontSize: "18px" }}>
               {question.subject}
+              {question.answers && question.answers.length > 0 && (
+                <span
+                  style={{
+                    marginLeft: "8px",
+                    backgroundColor: "#ff5f5f",
+                    color: "#fff",
+                    borderRadius: "50%",
+                    fontSize: "12px",
+                    width: "20px",
+                    height: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {question.answers.length}
+                </span>
+              )}
             </h3>
           </li>
         ))}

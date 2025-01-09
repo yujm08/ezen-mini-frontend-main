@@ -10,14 +10,19 @@ export default function HomePage() {
         <a href="/question/list" className="button">
           게시판
         </a>
-        <h1 className="heading">
-          Welcome to My Board! It's made by JM
-        </h1>
+        <h1 className="heading">Welcome to My Board! It's made by JM</h1>
         <div className="typing">I'll show you my board!</div>
       </div>
 
       {/* 오른쪽: 배경 이미지 */}
-      <div className="right-panel"></div>
+      <div className="right-panel">
+        <img
+          src="images/winter-town.webp"
+          alt="Background"
+          className="background-image"
+        />
+      </div>
     </div>
   );
 }
+

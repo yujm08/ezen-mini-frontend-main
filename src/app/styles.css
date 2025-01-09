@@ -1,8 +1,28 @@
-.container {
-  display: flex;
-  height: 100vh; /* 화면 전체 높이 */
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* HTML 및 Body 기본 설정 */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 스크롤바 제거 */
+}
+
+/* 전체 컨테이너 */
+.container {
+  display: flex;
+  height: 100vh; /* 화면 전체 높이를 채우도록 설정 */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 왼쪽 패널 */
 .left-panel {
   width: 50%;
   display: flex;
@@ -14,14 +34,27 @@
   box-sizing: border-box;
 }
 
+/* 오른쪽 패널 */
 .right-panel {
   width: 50%;
-  background-image: url('/images/winter-town.webp'); /* 원래 사진 경로 */
-  background-repeat: no-repeat;
-  background-size: cover; /* 이미지를 꽉 채움 */
-  background-position: center; /* 이미지를 가운데 정렬 */
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
 }
 
+/* 배경 이미지 */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 왜곡 없이 패널을 완전히 채우도록 설정 */
+  z-index: -1; /* 다른 요소 뒤로 이동 */
+}
+
+/* 버튼 스타일 */
 .button {
   background-color: black;
   color: white;
@@ -29,17 +62,20 @@
   border-radius: 5px;
   text-decoration: none;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .button:hover {
   background-color: #333;
 }
 
+/* 헤딩 스타일 */
 .heading {
   font-size: 24px;
   margin-bottom: 3px;
 }
 
+/* 타이핑 효과 넣기*/
 .typing {
   font-size: 1.2rem;
   color: #666;
