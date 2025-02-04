@@ -7,7 +7,7 @@ export async function getQuestions(page = 1) {
     const response = await axios.get(`${BASE_URL}/questions`, {
       params: { page }, // page 파라미터 추가
     });
-    return response.data; // 전체 응답 데이터
+    return response.data; // 전체 응답 데이터!!
   } catch (error) {
     console.error('Failed to fetch questions:', error);
     return null;
